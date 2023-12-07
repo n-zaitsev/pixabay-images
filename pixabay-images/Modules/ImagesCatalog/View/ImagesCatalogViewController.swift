@@ -79,7 +79,7 @@ final class ImagesCatalogViewController: UIViewController {
 
     @objc
     private func dismissKeyboard() {
-        view.endEditing(true)
+        searchController.searchBar.endEditing(true)
     }
 }
 
