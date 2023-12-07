@@ -12,18 +12,30 @@ final class ImagesCatalogViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Images"
+        navigationItem.title = "Images"
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
         imagesCatalogPresenter.setViewDelegate(self)
         setupConstraints()
-        imagesCatalogPresenter.fetchImages(query: query)
+        addGestureRecognizerToHideKeyboard()
+        imagesCatalogPresenter.fetchImages(query: "")
+        // TODO: Add loading indicator
     }
-
-    private var query: String = ""
 
     private let imagesCatalogPresenter = ImagesCatalogPresenter(imagesCatalogService: ImagesCatalogService())
 
-    private var collectionViewLayout: UICollectionViewLayout {
-        UICollectionViewCompositionalLayout { sectionIndex, _ in
+    private lazy var searchController: UISearchController = {
+        let search = UISearchController()
+        search.searchBar.placeholder = "Search..."
+        search.searchBar.showsCancelButton = false
+        search.searchBar.searchBarStyle = .minimal
+        search.hidesNavigationBarDuringPresentation = false
+        search.searchBar.delegate = self
+        return search
+    }()
+
+    private lazy var collectionViewLayout: UICollectionViewLayout = {
+        UICollectionViewCompositionalLayout { _, _ in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
                                                   heightDimension: .fractionalHeight(1.0))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -35,10 +47,11 @@ final class ImagesCatalogViewController: UIViewController {
 
             return section
         }
-    }
+    }()
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        collectionView.keyboardDismissMode = .onDrag
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.alwaysBounceVertical = false
         collectionView.delegate = imagesCatalogPresenter
@@ -56,6 +69,18 @@ final class ImagesCatalogViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
+
+    // TODO: Doesn't work
+    private func addGestureRecognizerToHideKeyboard() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc
+    private func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 extension ImagesCatalogViewController: ImagesCatalogViewDelegate {
@@ -63,5 +88,11 @@ extension ImagesCatalogViewController: ImagesCatalogViewDelegate {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
+    }
+}
+
+extension ImagesCatalogViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        imagesCatalogPresenter.fetchImages(query: searchBar.text ?? "")
     }
 }
