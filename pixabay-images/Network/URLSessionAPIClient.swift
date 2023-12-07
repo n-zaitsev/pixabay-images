@@ -11,8 +11,8 @@ final class URLSessionAPIClient<EndpointType: Endpoint>: APIClient {
     func request<T: Decodable>(_ endpoint: EndpointType, responseModel: T.Type) async -> Result<T, RequestError> {
         var urlComponents = URLComponents()
         urlComponents.scheme = endpoint.scheme
-        urlComponents.path = endpoint.path
         urlComponents.host = endpoint.host
+        urlComponents.path = endpoint.path
         if !endpoint.query.isEmpty {
             urlComponents.queryItems = endpoint.query
         }

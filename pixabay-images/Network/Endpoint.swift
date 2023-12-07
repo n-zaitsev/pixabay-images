@@ -21,6 +21,6 @@ extension Endpoint {
     }
 
     var host: String {
-        return "pixabay.com/api/"
+        return "pixabay.com"
     }
 }
