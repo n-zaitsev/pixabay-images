@@ -19,7 +19,7 @@ protocol ImagesCatalogViewDelegate: AnyObject {
 class ImagesCatalogPresenter: NSObject {
     private let imagesCatalogService: ImagesCatalogServiceProtocol
     private weak var viewDelegate: ImagesCatalogViewDelegate?
-    private var viewModel = ImagesCatalogViewModel(total: 0, images: [], nextPage: 1)
+    private var viewModel = ImagesCatalogViewModel()
 
     init(imagesCatalogService: ImagesCatalogServiceProtocol) {
         self.imagesCatalogService = imagesCatalogService

@@ -14,10 +14,10 @@ final class ImagesCatalogViewModel {
     var selectedItems: Set<Image>
     private(set) var query: String
 
-    init(total: Int, images: [Image], nextPage: Int) {
-        self.total = total
-        self.images = images
-        self.nextPage = nextPage
+    init() {
+        self.total = 0
+        self.images = []
+        self.nextPage = 1
         self.query = ""
         self.selectedItems = []
     }
