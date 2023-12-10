@@ -25,6 +25,14 @@ class ImagesCatalogPresenter: NSObject {
         self.imagesCatalogService = imagesCatalogService
     }
 
+    var selectedImages: Set<Image> {
+        viewModel.selectedItems
+    }
+
+    func trashButtonDidTapped() {
+        viewModel.selectedItems.removeAll()
+    }
+
     func setViewDelegate(_ viewDelegate: ImagesCatalogViewDelegate?) {
         self.viewDelegate = viewDelegate
     }
@@ -33,7 +41,7 @@ class ImagesCatalogPresenter: NSObject {
         viewModel.updateQuery(newQuery)
         viewDelegate?.setLoadingIndicator(active: true)
         Task {
-            let result = await imagesCatalogService.fetchImages(page: viewModel.nextPage, query: viewModel.query)
+            let result = await imagesCatalogService.fetchImages(request: viewModel.imagesRequest)
             switch result {
             case .success(let success):
                 viewModel.total = success.total
@@ -56,7 +64,7 @@ class ImagesCatalogPresenter: NSObject {
             return
         }
         Task {
-            let result = await imagesCatalogService.fetchImages(page: viewModel.nextPage, query: viewModel.query)
+            let result = await imagesCatalogService.fetchImages(request: viewModel.imagesRequest)
             switch result {
             case .success(let success):
                 viewModel.total = success.total
@@ -111,15 +119,5 @@ extension ImagesCatalogPresenter: UICollectionViewDataSource {
             collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
         }
         return cell ?? UICollectionViewCell()
-    }
-}
-
-extension ImagesCatalogPresenter: ImagesCatalogViewControllerDelegate {
-    var selectedImages: Set<Image> {
-        viewModel.selectedItems
-    }
-
-    func trashButtonDidTapped() {
-        viewModel.selectedItems.removeAll()
     }
 }

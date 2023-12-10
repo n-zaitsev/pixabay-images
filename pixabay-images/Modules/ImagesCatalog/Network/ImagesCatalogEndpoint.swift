@@ -8,7 +8,7 @@
 import Foundation
 
 enum ImagesCatalogEndpoint {
-    case fetchImages(page: Int, query: String)
+    case fetchImages(request: ImagesRequest)
 }
 
 extension ImagesCatalogEndpoint: Endpoint {
@@ -28,10 +28,11 @@ extension ImagesCatalogEndpoint: Endpoint {
     
     var query: [URLQueryItem] {
         switch self {
-        case let .fetchImages(page, query):
-            return [URLQueryItem(name: QueryNames.key.rawValue, value: AppSettings.apiKey),
-                    URLQueryItem(name: QueryNames.page.rawValue, value: String(page)),
-                    URLQueryItem(name: QueryNames.q.rawValue, value: query)]
+        case let .fetchImages(request):
+            let key = URLQueryItem(name: QueryNames.key.rawValue, value: AppSettings.apiKey)
+            let page = URLQueryItem(name: QueryNames.page.rawValue, value: String(request.page))
+            let query = URLQueryItem(name: QueryNames.q.rawValue, value: request.query)
+            return [key, page, query]
         }
     }
 

@@ -7,21 +7,14 @@
 
 import UIKit
 
-protocol ImagesCatalogViewControllerDelegate: AnyObject {
-    func trashButtonDidTapped()
-    var selectedImages: Set<Image> { get }
-}
-
 final class ImagesCatalogViewController: BaseViewController {
 
     override func viewDidLoad() {
         setupConstraints()
         super.viewDidLoad()
-        view.backgroundColor = .white
         navigationItem.title = "Images"
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
-        presenterDelegate = imagesCatalogPresenter
         imagesCatalogPresenter.setViewDelegate(self)
         addGestureRecognizerToHideKeyboard()
         imagesCatalogPresenter.fetchImages(with: "")
@@ -30,7 +23,6 @@ final class ImagesCatalogViewController: BaseViewController {
     var onImages: ((Set<Image>) -> Void)?
 
     private let imagesCatalogPresenter = ImagesCatalogPresenter(imagesCatalogService: ImagesCatalogService())
-    private weak var presenterDelegate: ImagesCatalogViewControllerDelegate?
 
     private lazy var cancelSelectionButton = UIBarButtonItem(title: "Clear choice",
                                                              style: .done,
@@ -103,17 +95,14 @@ final class ImagesCatalogViewController: BaseViewController {
 
     @objc
     private func clearImages() {
-        presenterDelegate?.trashButtonDidTapped()
+        imagesCatalogPresenter.trashButtonDidTapped()
         navigationItem.leftBarButtonItem = nil
         collectionView.reloadData()
     }
 
     @objc
     private func showImages() {
-        guard let images = presenterDelegate?.selectedImages else {
-            return
-        }
-        onImages?(images)
+        onImages?(imagesCatalogPresenter.selectedImages)
     }
 }
 

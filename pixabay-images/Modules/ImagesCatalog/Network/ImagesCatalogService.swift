@@ -8,13 +8,13 @@
 import Foundation
 
 protocol ImagesCatalogServiceProtocol: AnyObject {
-    func fetchImages(page: Int, query: String) async -> Result<ImagesResponse, RequestError>
+    func fetchImages(request: ImagesRequest) async -> Result<ImagesResponse, RequestError>
 }
 
 final class ImagesCatalogService: ImagesCatalogServiceProtocol {
     private let apiClient = URLSessionAPIClient<ImagesCatalogEndpoint>()
 
-    func fetchImages(page: Int, query: String) async -> Result<ImagesResponse, RequestError> {
-        await apiClient.request(.fetchImages(page: page, query: query), responseModel: ImagesResponse.self)
+    func fetchImages(request: ImagesRequest) async -> Result<ImagesResponse, RequestError> {
+        await apiClient.request(.fetchImages(request: request), responseModel: ImagesResponse.self)
     }
 }

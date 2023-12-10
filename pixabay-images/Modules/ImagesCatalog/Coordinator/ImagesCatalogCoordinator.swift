@@ -16,8 +16,12 @@ final class ImagesCatalogCoordinator: Coordinator {
     
     func start() {
         let imagesCatalogVC = ImagesCatalogViewController()
-        imagesCatalogVC.onImages = { [weak navigationController] _ in
-            // TODO: make transition
+        imagesCatalogVC.onImages = { [weak navigationController] ids in
+            guard let navigationController = navigationController else {
+                return
+            }
+            let coordinator = ImagesDetailsCoordinator(navigationController: navigationController)
+            coordinator.start(with: ids.map({ $0.id }))
         }
         navigationController?.pushViewController(imagesCatalogVC, animated: false)
     }

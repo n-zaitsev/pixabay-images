@@ -11,6 +11,7 @@ class BaseViewController: UIViewController {
 
     override func viewDidLoad() {
         setupErrorView()
+        view.backgroundColor = .white
         super.viewDidLoad()
     }
 
@@ -20,7 +21,7 @@ class BaseViewController: UIViewController {
     private let animationDuration: CGFloat = 0.3
 
     func startAnimating() {
-        present(alert, animated: true)
+        present(alert, animated: false)
     }
 
     func stopAnimating() {

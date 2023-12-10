@@ -26,6 +26,10 @@ final class ImagesCatalogViewModel {
         total == images.count && !images.isEmpty
     }
 
+    var imagesRequest: ImagesRequest {
+        ImagesRequest(page: nextPage, query: query)
+    }
+
     func updateQuery(_ q: String) {
         guard query != q else {
             return
