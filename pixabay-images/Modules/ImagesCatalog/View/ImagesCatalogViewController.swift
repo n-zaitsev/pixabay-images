@@ -10,13 +10,13 @@ import UIKit
 final class ImagesCatalogViewController: BaseViewController {
 
     override func viewDidLoad() {
+        setupConstraints()
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationItem.title = "Images"
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         imagesCatalogPresenter.setViewDelegate(self)
-        setupConstraints()
         addGestureRecognizerToHideKeyboard()
         imagesCatalogPresenter.fetchImages(with: "")
     }
@@ -97,6 +97,17 @@ extension ImagesCatalogViewController: ImagesCatalogViewDelegate {
                 self.stopAnimating()
             }
         }
+    }
+
+    func showError(animated: Bool, _ action: (() -> Void)?) {
+        showErrorView(animated: animated) { [weak self] in
+            self?.hideErrorView()
+            action?()
+        }
+    }
+
+    func showShortError(animated: Bool) {
+        showShortErrorView(animated: animated)
     }
 }
 

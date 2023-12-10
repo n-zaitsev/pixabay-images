@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		26BE1CAF2B24EF7700C29A64 /* ActivityIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE1CAE2B24EF7700C29A64 /* ActivityIndicatorViewController.swift */; };
+		26BE1CB12B254EF200C29A64 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE1CB02B254EF200C29A64 /* ErrorView.swift */; };
 		26D894542B22041E00C1BC14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D894532B22041E00C1BC14 /* AppDelegate.swift */; };
 		26D894562B22041E00C1BC14 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D894552B22041E00C1BC14 /* SceneDelegate.swift */; };
 		26D894582B22041E00C1BC14 /* ImagesCatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D894572B22041E00C1BC14 /* ImagesCatalogViewController.swift */; };
@@ -55,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		26BE1CAE2B24EF7700C29A64 /* ActivityIndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorViewController.swift; sourceTree = "<group>"; };
+		26BE1CB02B254EF200C29A64 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		26D894502B22041E00C1BC14 /* pixabay-images.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pixabay-images.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		26D894532B22041E00C1BC14 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		26D894552B22041E00C1BC14 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 			children = (
 				26D894B52B23155800C1BC14 /* BaseViewController.swift */,
 				26BE1CAE2B24EF7700C29A64 /* ActivityIndicatorViewController.swift */,
+				26BE1CB02B254EF200C29A64 /* ErrorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 				26D894932B2208F100C1BC14 /* AppSettings.swift in Sources */,
 				26D894902B22073700C1BC14 /* APIClient.swift in Sources */,
 				26D8949E2B220C1400C1BC14 /* ImagesCatalogService.swift in Sources */,
+				26BE1CB12B254EF200C29A64 /* ErrorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

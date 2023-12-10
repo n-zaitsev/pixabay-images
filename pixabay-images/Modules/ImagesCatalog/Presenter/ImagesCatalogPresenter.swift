@@ -10,6 +10,8 @@ import UIKit
 protocol ImagesCatalogViewDelegate: AnyObject {
     func updateCollectionView(needScroll: Bool)
     func setLoadingIndicator(active: Bool)
+    func showError(animated: Bool, _ action: (() -> Void)?)
+    func showShortError(animated: Bool)
 }
 
 class ImagesCatalogPresenter: NSObject {
@@ -38,8 +40,10 @@ class ImagesCatalogPresenter: NSObject {
                     self.viewDelegate?.updateCollectionView(needScroll: true)
                 }
                 self.viewModel.nextPage += 1
-            case .failure(let failure):
-                print(failure)
+            case .failure:
+                viewDelegate?.showError(animated: true, { [weak self] in
+                    self?.fetchImages(with: newQuery)
+                })
             }
             viewDelegate?.setLoadingIndicator(active: false)
         }
@@ -59,8 +63,8 @@ class ImagesCatalogPresenter: NSObject {
                     self.viewDelegate?.updateCollectionView(needScroll: false)
                 }
                 self.viewModel.nextPage += 1
-            case .failure(let failure):
-                print(failure)
+            case .failure:
+                viewDelegate?.showShortError(animated: true)
             }
         }
     }
