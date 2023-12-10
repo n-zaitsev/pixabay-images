@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		26BE1CAF2B24EF7700C29A64 /* ActivityIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE1CAE2B24EF7700C29A64 /* ActivityIndicatorViewController.swift */; };
 		26D894542B22041E00C1BC14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D894532B22041E00C1BC14 /* AppDelegate.swift */; };
 		26D894562B22041E00C1BC14 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D894552B22041E00C1BC14 /* SceneDelegate.swift */; };
 		26D894582B22041E00C1BC14 /* ImagesCatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D894572B22041E00C1BC14 /* ImagesCatalogViewController.swift */; };
@@ -32,6 +33,7 @@
 		26D894AC2B22194E00C1BC14 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D894AB2B22194E00C1BC14 /* ImageCollectionViewCell.swift */; };
 		26D894AE2B221B7600C1BC14 /* ImagesCatalogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D894AD2B221B7600C1BC14 /* ImagesCatalogViewModel.swift */; };
 		26D894B12B221E6300C1BC14 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 26D894B02B221E6300C1BC14 /* Kingfisher */; };
+		26D894B62B23155800C1BC14 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26D894B52B23155800C1BC14 /* BaseViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		26BE1CAE2B24EF7700C29A64 /* ActivityIndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorViewController.swift; sourceTree = "<group>"; };
 		26D894502B22041E00C1BC14 /* pixabay-images.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pixabay-images.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		26D894532B22041E00C1BC14 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		26D894552B22041E00C1BC14 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +83,7 @@
 		26D894A82B22175E00C1BC14 /* UICollectionViewCell+cellIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+cellIdentifier.swift"; sourceTree = "<group>"; };
 		26D894AB2B22194E00C1BC14 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		26D894AD2B221B7600C1BC14 /* ImagesCatalogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesCatalogViewModel.swift; sourceTree = "<group>"; };
+		26D894B52B23155800C1BC14 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +188,7 @@
 		26D894912B2208D700C1BC14 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				26D894B42B23154400C1BC14 /* Views */,
 				26D8945C2B22041F00C1BC14 /* Assets.xcassets */,
 				26D894922B2208F100C1BC14 /* AppSettings.swift */,
 			);
@@ -268,6 +273,15 @@
 				26D894AB2B22194E00C1BC14 /* ImageCollectionViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		26D894B42B23154400C1BC14 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				26D894B52B23155800C1BC14 /* BaseViewController.swift */,
+				26BE1CAE2B24EF7700C29A64 /* ActivityIndicatorViewController.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -410,7 +424,9 @@
 				26D8948E2B22072E00C1BC14 /* RequestMethod.swift in Sources */,
 				26D8948C2B22072500C1BC14 /* RequestError.swift in Sources */,
 				26D894982B220AD000C1BC14 /* ImagesCatalogCoordinator.swift in Sources */,
+				26BE1CAF2B24EF7700C29A64 /* ActivityIndicatorViewController.swift in Sources */,
 				26D894862B2206E000C1BC14 /* Coordinator.swift in Sources */,
+				26D894B62B23155800C1BC14 /* BaseViewController.swift in Sources */,
 				26D894A42B22107500C1BC14 /* Image.swift in Sources */,
 				26D894AC2B22194E00C1BC14 /* ImageCollectionViewCell.swift in Sources */,
 				26D894582B22041E00C1BC14 /* ImagesCatalogViewController.swift in Sources */,

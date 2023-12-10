@@ -8,15 +8,20 @@
 import Foundation
 
 final class ImagesCatalogViewModel {
+    var total: Int
     var images: [Image]
     var nextPage: Int
-
     private(set) var query: String
 
-    init(images: [Image], nextPage: Int) {
+    init(total: Int, images: [Image], nextPage: Int) {
+        self.total = total
         self.images = images
         self.nextPage = nextPage
         self.query = ""
+    }
+
+    var isLastPage: Bool {
+        total == images.count && !images.isEmpty
     }
 
     func updateQuery(_ q: String) {
@@ -24,6 +29,7 @@ final class ImagesCatalogViewModel {
             return
         }
         self.query = q
+        self.total = 0
         nextPage = 1
         images.removeAll()
     }

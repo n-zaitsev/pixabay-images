@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ImagesCatalogViewController: UIViewController {
+final class ImagesCatalogViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,8 +18,7 @@ final class ImagesCatalogViewController: UIViewController {
         imagesCatalogPresenter.setViewDelegate(self)
         setupConstraints()
         addGestureRecognizerToHideKeyboard()
-        imagesCatalogPresenter.fetchImages(query: "")
-        // TODO: Add loading indicator
+        imagesCatalogPresenter.fetchImages(with: "")
     }
 
     private let imagesCatalogPresenter = ImagesCatalogPresenter(imagesCatalogService: ImagesCatalogService())
@@ -70,7 +69,6 @@ final class ImagesCatalogViewController: UIViewController {
         ])
     }
 
-    // TODO: Doesn't work
     private func addGestureRecognizerToHideKeyboard() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
@@ -84,15 +82,26 @@ final class ImagesCatalogViewController: UIViewController {
 }
 
 extension ImagesCatalogViewController: ImagesCatalogViewDelegate {
-    func updateCollectionView() {
+    func updateCollectionView(needScroll: Bool) {
+        self.collectionView.reloadData()
+        if needScroll {
+            self.collectionView.setContentOffset(.zero, animated: false)
+        }
+    }
+
+    func setLoadingIndicator(active: Bool) {
         DispatchQueue.main.async {
-            self.collectionView.reloadData()
+            if active {
+                self.startAnimating()
+            } else {
+                self.stopAnimating()
+            }
         }
     }
 }
 
 extension ImagesCatalogViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        imagesCatalogPresenter.fetchImages(query: searchBar.text ?? "")
+        imagesCatalogPresenter.fetchImages(with: searchBar.text ?? "")
     }
 }

@@ -8,13 +8,14 @@
 import UIKit
 
 protocol ImagesCatalogViewDelegate: AnyObject {
-    func updateCollectionView()
+    func updateCollectionView(needScroll: Bool)
+    func setLoadingIndicator(active: Bool)
 }
 
 class ImagesCatalogPresenter: NSObject {
     private let imagesCatalogService: ImagesCatalogServiceProtocol
     private weak var viewDelegate: ImagesCatalogViewDelegate?
-    private var viewModel = ImagesCatalogViewModel(images: [], nextPage: 1)
+    private var viewModel = ImagesCatalogViewModel(total: 0, images: [], nextPage: 1)
 
     init(imagesCatalogService: ImagesCatalogServiceProtocol) {
         self.imagesCatalogService = imagesCatalogService
@@ -24,14 +25,39 @@ class ImagesCatalogPresenter: NSObject {
         self.viewDelegate = viewDelegate
     }
 
-    func fetchImages(query: String) {
-        viewModel.updateQuery(query)
+    func fetchImages(with newQuery: String) {
+        viewModel.updateQuery(newQuery)
+        viewDelegate?.setLoadingIndicator(active: true)
         Task {
             let result = await imagesCatalogService.fetchImages(page: viewModel.nextPage, query: viewModel.query)
             switch result {
             case .success(let success):
+                viewModel.total = success.total
+                viewModel.images = success.hits
+                DispatchQueue.main.sync {
+                    self.viewDelegate?.updateCollectionView(needScroll: true)
+                }
+                self.viewModel.nextPage += 1
+            case .failure(let failure):
+                print(failure)
+            }
+            viewDelegate?.setLoadingIndicator(active: false)
+        }
+    }
+
+    func fetchImagesWithNextPage() {
+        guard !viewModel.isLastPage else {
+            return
+        }
+        Task {
+            let result = await imagesCatalogService.fetchImages(page: viewModel.nextPage, query: viewModel.query)
+            switch result {
+            case .success(let success):
+                viewModel.total = success.total
                 viewModel.images.append(contentsOf: success.hits)
-                self.viewDelegate?.updateCollectionView()
+                DispatchQueue.main.async {
+                    self.viewDelegate?.updateCollectionView(needScroll: false)
+                }
                 self.viewModel.nextPage += 1
             case .failure(let failure):
                 print(failure)
@@ -43,7 +69,7 @@ class ImagesCatalogPresenter: NSObject {
 extension ImagesCatalogPresenter: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.item == viewModel.images.count - 1 {
-            fetchImages(query: viewModel.query)
+            fetchImagesWithNextPage()
         }
     }
 }
