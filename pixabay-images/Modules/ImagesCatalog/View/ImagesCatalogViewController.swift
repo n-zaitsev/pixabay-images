@@ -115,4 +115,9 @@ extension ImagesCatalogViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         imagesCatalogPresenter.fetchImages(with: searchBar.text ?? "")
     }
+
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let totalCharacters = (searchBar.text?.appending(text).count ?? 0) - range.length
+        return totalCharacters <= 100
+    }
 }
