@@ -19,8 +19,15 @@ final class ImageCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setup(image: Image) {
+    override var isSelected: Bool {
+        didSet {
+            setBackground()
+        }
+    }
+
+    func setup(image: Image, selected: Bool) {
         imageView.kf.setImage(with: image.previewURL)
+        isSelected = selected
     }
 
     private lazy var imageView: UIImageView = {
@@ -37,5 +44,13 @@ final class ImageCollectionViewCell: UICollectionViewCell {
             imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
+    }
+
+    private func setBackground() {
+        if isSelected {
+            contentView.backgroundColor = .link
+        } else{
+            contentView.backgroundColor = .white
+        }
     }
 }

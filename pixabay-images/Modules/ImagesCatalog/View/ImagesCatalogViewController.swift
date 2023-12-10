@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol ImagesCatalogViewControllerDelegate: AnyObject {
+    func trashButtonDidTapped()
+    var selectedImages: Set<Image> { get }
+}
+
 final class ImagesCatalogViewController: BaseViewController {
 
     override func viewDidLoad() {
@@ -16,12 +21,26 @@ final class ImagesCatalogViewController: BaseViewController {
         navigationItem.title = "Images"
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
+        presenterDelegate = imagesCatalogPresenter
         imagesCatalogPresenter.setViewDelegate(self)
         addGestureRecognizerToHideKeyboard()
         imagesCatalogPresenter.fetchImages(with: "")
     }
 
+    var onImages: ((Set<Image>) -> Void)?
+
     private let imagesCatalogPresenter = ImagesCatalogPresenter(imagesCatalogService: ImagesCatalogService())
+    private weak var presenterDelegate: ImagesCatalogViewControllerDelegate?
+
+    private lazy var cancelSelectionButton = UIBarButtonItem(title: "Clear choice",
+                                                             style: .done,
+                                                             target: self,
+                                                             action: #selector(clearImages))
+
+    private lazy var onSelectedImagesButton = UIBarButtonItem(title: "Show images",
+                                                                style: .done,
+                                                                target: self,
+                                                                action: #selector(showImages))
 
     private lazy var searchController: UISearchController = {
         let search = UISearchController()
@@ -41,6 +60,7 @@ final class ImagesCatalogViewController: BaseViewController {
             let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                    heightDimension: .absolute(150))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            group.interItemSpacing = .fixed(8)
             let section = NSCollectionLayoutSection(group: group)
             section.interGroupSpacing = 8
 
@@ -55,6 +75,7 @@ final class ImagesCatalogViewController: BaseViewController {
         collectionView.alwaysBounceVertical = false
         collectionView.delegate = imagesCatalogPresenter
         collectionView.dataSource = imagesCatalogPresenter
+        collectionView.allowsMultipleSelection = true
         collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.cellIdentifier)
         return collectionView
     }()
@@ -78,6 +99,21 @@ final class ImagesCatalogViewController: BaseViewController {
     @objc
     private func dismissKeyboard() {
         searchController.searchBar.endEditing(true)
+    }
+
+    @objc
+    private func clearImages() {
+        presenterDelegate?.trashButtonDidTapped()
+        navigationItem.leftBarButtonItem = nil
+        collectionView.reloadData()
+    }
+
+    @objc
+    private func showImages() {
+        guard let images = presenterDelegate?.selectedImages else {
+            return
+        }
+        onImages?(images)
     }
 }
 
@@ -108,6 +144,16 @@ extension ImagesCatalogViewController: ImagesCatalogViewDelegate {
 
     func showShortError(animated: Bool) {
         showShortErrorView(animated: animated)
+    }
+
+    func setupButtons() {
+        navigationItem.leftBarButtonItem = cancelSelectionButton
+        navigationItem.rightBarButtonItem = onSelectedImagesButton
+    }
+
+    func removeButtons() {
+        navigationItem.leftBarButtonItem = nil
+        navigationItem.rightBarButtonItem = nil
     }
 }
 

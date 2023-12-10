@@ -16,6 +16,9 @@ final class ImagesCatalogCoordinator: Coordinator {
     
     func start() {
         let imagesCatalogVC = ImagesCatalogViewController()
+        imagesCatalogVC.onImages = { [weak navigationController] _ in
+            // TODO: make transition
+        }
         navigationController?.pushViewController(imagesCatalogVC, animated: false)
     }
 }

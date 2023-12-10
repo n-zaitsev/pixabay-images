@@ -11,6 +11,7 @@ final class ImagesCatalogViewModel {
     var total: Int
     var images: [Image]
     var nextPage: Int
+    var selectedItems: Set<Image>
     private(set) var query: String
 
     init(total: Int, images: [Image], nextPage: Int) {
@@ -18,6 +19,7 @@ final class ImagesCatalogViewModel {
         self.images = images
         self.nextPage = nextPage
         self.query = ""
+        self.selectedItems = []
     }
 
     var isLastPage: Bool {
@@ -32,5 +34,6 @@ final class ImagesCatalogViewModel {
         self.total = 0
         nextPage = 1
         images.removeAll()
+        selectedItems.removeAll()
     }
 }

@@ -12,6 +12,8 @@ protocol ImagesCatalogViewDelegate: AnyObject {
     func setLoadingIndicator(active: Bool)
     func showError(animated: Bool, _ action: (() -> Void)?)
     func showShortError(animated: Bool)
+    func setupButtons()
+    func removeButtons()
 }
 
 class ImagesCatalogPresenter: NSObject {
@@ -76,6 +78,20 @@ extension ImagesCatalogPresenter: UICollectionViewDelegate {
             fetchImagesWithNextPage()
         }
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        viewModel.selectedItems.insert(viewModel.images[indexPath.item])
+        if viewModel.selectedItems.count > 1 {
+            viewDelegate?.setupButtons()
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        viewModel.selectedItems.remove(viewModel.images[indexPath.item])
+        if viewModel.selectedItems.count < 2 {
+            viewDelegate?.removeButtons()
+        }
+    }
 }
 
 extension ImagesCatalogPresenter: UICollectionViewDataSource {
@@ -88,7 +104,22 @@ extension ImagesCatalogPresenter: UICollectionViewDataSource {
             withReuseIdentifier: ImageCollectionViewCell.cellIdentifier,
             for: indexPath
         ) as? ImageCollectionViewCell
-        cell?.setup(image: viewModel.images[indexPath.item])
+
+        let isSelected = viewModel.selectedItems.contains(viewModel.images[indexPath.item])
+        cell?.setup(image: viewModel.images[indexPath.item], selected: isSelected)
+        if isSelected {
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
+        }
         return cell ?? UICollectionViewCell()
+    }
+}
+
+extension ImagesCatalogPresenter: ImagesCatalogViewControllerDelegate {
+    var selectedImages: Set<Image> {
+        viewModel.selectedItems
+    }
+
+    func trashButtonDidTapped() {
+        viewModel.selectedItems.removeAll()
     }
 }

@@ -11,3 +11,9 @@ struct Image: Decodable {
     let id: Int
     let previewURL: URL
 }
+
+extension Image: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
