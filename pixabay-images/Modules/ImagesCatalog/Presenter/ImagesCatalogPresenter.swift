@@ -7,11 +7,8 @@
 
 import UIKit
 
-protocol ImagesCatalogViewDelegate: AnyObject {
+protocol ImagesCatalogViewDelegate: BaseViewDelegate {
     func updateCollectionView(needScroll: Bool)
-    func setLoadingIndicator(active: Bool)
-    func showError(animated: Bool, _ action: (() -> Void)?)
-    func showShortError(animated: Bool)
     func setupButtons()
     func removeButtons()
 }

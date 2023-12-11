@@ -97,6 +97,7 @@ final class ImagesCatalogViewController: BaseViewController {
     private func clearImages() {
         imagesCatalogPresenter.trashButtonDidTapped()
         navigationItem.leftBarButtonItem = nil
+        navigationItem.rightBarButtonItem = nil
         collectionView.reloadData()
     }
 
@@ -112,27 +113,6 @@ extension ImagesCatalogViewController: ImagesCatalogViewDelegate {
         if needScroll {
             self.collectionView.setContentOffset(.zero, animated: false)
         }
-    }
-
-    func setLoadingIndicator(active: Bool) {
-        DispatchQueue.main.async {
-            if active {
-                self.startAnimating()
-            } else {
-                self.stopAnimating()
-            }
-        }
-    }
-
-    func showError(animated: Bool, _ action: (() -> Void)?) {
-        showErrorView(animated: animated) { [weak self] in
-            self?.hideErrorView()
-            action?()
-        }
-    }
-
-    func showShortError(animated: Bool) {
-        showShortErrorView(animated: animated)
     }
 
     func setupButtons() {

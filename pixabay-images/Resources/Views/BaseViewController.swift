@@ -80,3 +80,26 @@ class BaseViewController: UIViewController {
         ])
     }
 }
+
+extension BaseViewController: BaseViewDelegate {
+    func setLoadingIndicator(active: Bool) {
+        DispatchQueue.main.async {
+            if active {
+                self.startAnimating()
+            } else {
+                self.stopAnimating()
+            }
+        }
+    }
+    
+    func showError(animated: Bool, _ action: (() -> Void)?) {
+        showErrorView(animated: animated) { [weak self] in
+            self?.hideErrorView()
+            action?()
+        }
+    }
+    
+    func showShortError(animated: Bool) {
+        showShortErrorView(animated: animated)
+    }
+}

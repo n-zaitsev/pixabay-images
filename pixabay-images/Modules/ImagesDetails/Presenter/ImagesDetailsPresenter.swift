@@ -7,10 +7,8 @@
 
 import UIKit
 
-protocol ImagesDetailsViewDelegate: AnyObject {
+protocol ImagesDetailsViewDelegate: BaseViewDelegate {
     func updateCollectionView()
-    func setLoadingIndicator(active: Bool)
-    func showError(animated: Bool, _ action: (() -> Void)?)
 }
 
 final class ImagesDetailsPresenter: NSObject {
