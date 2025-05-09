@@ -69,7 +69,7 @@ class BaseViewController: UIViewController {
 
     private func setupErrorView() {
         self.errorView.alpha = 0
-        errorView.isHidden = true
+        errorView.isHidden = false
         view.addSubview(errorView)
         errorView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
